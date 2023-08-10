@@ -11,6 +11,6 @@ letra e, os demais caracteres podem ser apenas letras ou dígitos.
 
 O método principal desse produto é o
 
-```public boolean validadeIdentifier(String cadeia){...}'''
+```public boolean validadeIdentifier(String cadeia){...}```
 
 Esta versão apresenta uma interface gráfica Android para execução da aplicação.
