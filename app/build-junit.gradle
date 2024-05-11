@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
 
 android {
     namespace "app.identifier"
@@ -18,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -25,31 +25,11 @@ android {
     }
 }
 
-// Configure JaCoCo to collect coverage from unit tests
-jacoco {
-    toolVersion = "0.8.7"
-}
-
-// Creating a JaCoCo report task for unit tests
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/classes", excludes: fileFilter)
-    def mainSrc = "${projectDir}/src/main/java"
-    sourceDirectories.setFrom(files(mainSrc))
-    classDirectories.setFrom(files(debugTree))
-    executionData.setFrom(fileTree(dir: buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec'
-    ]))
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //JUnit 5.0 dependencies for unit testing
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testImplementation 'org.junit.platform:junit-platform-runner:1.10.2'
@@ -57,6 +37,7 @@ dependencies {
     testImplementation 'org.junit.platform:junit-platform-launcher:1.10.2'
     testImplementation 'org.junit.platform:junit-platform-suite-api:1.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-suite-engine:1.10.2a'
+    //Dependencies for Android Test/
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
